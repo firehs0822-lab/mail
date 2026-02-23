@@ -2,43 +2,42 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>우체통 🌙</title>
+  <title>답장을 기다리는 편지</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
-      font-family: 'Arial';
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 40px;
-    }
-    input, textarea, button {
-      padding: 10px;
-      margin: 10px;
-      width: 300px;
-      border-radius: 8px;
-      border: none;
-    }
-    button {
-      background: #6366f1;
-      color: white;
-      cursor: pointer;
-    }
-    .card {
-      background: #1e293b;
-      padding: 20px;
-      margin: 20px auto;
-      width: 400px;
-      border-radius: 12px;
-    }
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(to bottom, #0b1120, #151a33);
+  color: #f5f5f5;
+}
+    .subtitle {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+.hint {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
   </style>
 </head>
 <body>
 
-  <h1>🌙 우체통</h1>
+  <h1>답장을 기다리는 편지</h1>
+<p class="subtitle">
+어디에도 꺼내지 못한 이야기를, 이곳에 남겨주세요.
+</p>
 
   <h3>편지 쓰기</h3>
   <input id="nickname" placeholder="닉네임" /><br/>
+  <p class="hint">
+닉네임은 편하게 적어주세요.<br>
+조금 서툴러도 좋습니다.
+</p>
   <textarea id="content" placeholder="마음을 적어주세요"></textarea><br/>
   <button onclick="submitPost()">보내기</button>
 
