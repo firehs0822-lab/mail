@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>우체통 🌙</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: 'Arial';
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    input, textarea, button {
+      padding: 10px;
+      margin: 10px;
+      width: 300px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      cursor: pointer;
+    }
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      margin: 20px auto;
+      width: 400px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌙 우체통</h1>
+
+  <h3>편지 쓰기</h3>
+  <input id="nickname" placeholder="닉네임" /><br/>
+  <textarea id="content" placeholder="마음을 적어주세요"></textarea><br/>
+  <button onclick="submitPost()">보내기</button>
+
+  <h3>도착한 편지</h3>
+  <div id="posts"></div>
+
+<script>
+  const supabase = window.supabase.createClient(
+    "https://hiydbbrhdmrsryqpyagu.supabase.co",
+    "sb_publishable_9N6UXyLmNWFp86N5oWY4yw_InQSYSig"
+  );
+
+  async function submitPost() {
+    const nickname = document.getElementById("nickname").value;
+    const content = document.getElementById("content").value;
+
+    await supabase.from("posts").insert([
+      { nickname, content }
+    ]);
+
+    alert("편지가 전송되었어요 🌙");
+    loadPosts();
+  }
+
+  async function loadPosts() {
+    const { data } = await supabase
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    const container = document.getElementById("posts");
+    container.innerHTML = "";
+
+    data.forEach(post => {
+      container.innerHTML += `
+        <div class="card">
+          <b>${post.nickname}</b>
+          <p>${post.content}</p>
+        </div>
+      `;
+    });
+  }
+
+  loadPosts();
+</script>
+
+</body>
+</html>
