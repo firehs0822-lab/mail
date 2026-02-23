@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>답장을 기다리는 편지</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <style>
     body {
   margin: 0;
@@ -28,11 +29,13 @@
   </style>
  <style>
   body {
-    margin: 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    background: linear-gradient(to bottom, #0b1120, #151a33);
-    color: #f5f5f5;
-  }
+  margin: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: radial-gradient(circle at 20% 30%, #1b2445 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, #1a1f3a 0%, transparent 40%),
+              linear-gradient(to bottom, #0b1120, #0f172a);
+  color: #f5f5f5;
+}
 
   .container {
     max-width: 500px;
@@ -63,25 +66,39 @@
 }
   
 
-  input{
+ input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 15px 15px 0 0;
   border: none;
   outline: none;
   background: #f5f1e6;
   color: #333;
+  font-size: 14px;
 }
-   
-   textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-  }
+
+textarea {
+  width: 100%;
+  padding: 30px 20px;
+  border-radius: 0 0 15px 15px;
+  border: none;
+  outline: none;
+  min-height: 200px;
+  resize: none;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    #fdf6e3,
+    #fdf6e3 30px,
+    #e8dcc5 31px
+  );
+
+  color: #333;
+  font-size: 15px;
+  line-height: 30px;
+
+  text-align: center; /* 기본은 가운데 */
+}
 
   textarea  {
   width: 100%;
@@ -136,7 +153,7 @@
 어디에도 꺼내지 못한 이야기를, 이곳에 남겨주세요.
 </p>
 
-  <h3>편지 쓰기</h3>
+  <h3>오늘의 이야기를 적어주세요.</h3>
 <p class="hint">
 당신을 나타낼 이름이면 충분합니다.<br>
 조금 서툴러도 좋습니다.
@@ -186,6 +203,18 @@
   }
 
   loadPosts();
+
+  const textarea = document.getElementById("content");
+
+textarea.addEventListener("focus", () => {
+  textarea.style.textAlign = "left";
+});
+
+textarea.addEventListener("blur", () => {
+  if (textarea.value === "") {
+    textarea.style.textAlign = "center";
+  }
+});
 </script>
 </div>
 </body>
