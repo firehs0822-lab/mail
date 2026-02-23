@@ -8,7 +8,9 @@
     body {
   margin: 0;
   font-family: 'Noto Sans KR', sans-serif;
-  background: linear-gradient(to bottom, #0b1120, #151a33);
+  background: radial-gradient(circle at 20% 30%, #1b2445 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, #1a1f3a 0%, transparent 40%),
+              linear-gradient(to bottom, #0b1120, #0f172a);
   color: #f5f5f5;
 }
     .subtitle {
@@ -54,13 +56,25 @@
   }
 
   .hint {
-    font-size: 13px;
-    opacity: 0.7;
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+  
 
-  input, textarea {
+  input{
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: #f5f1e6;
+  color: #333;
+}
+   
+   textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -69,10 +83,28 @@
     outline: none;
   }
 
-  textarea {
-    min-height: 100px;
-    resize: none;
-  }
+  textarea  {
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  min-height: 150px;
+  resize: none;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    #fdf6e3,
+    #fdf6e3 28px,
+    #e8dcc5 29px
+  );
+
+  color: #333;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 15px;
+  line-height: 29px;
+}
 
   button {
     margin-top: 10px;
@@ -105,11 +137,11 @@
 </p>
 
   <h3>편지 쓰기</h3>
-  <input id="nickname" placeholder="닉네임" /><br/>
-  <p class="hint">
-닉네임은 편하게 적어주세요.<br>
+<p class="hint">
+당신을 나타낼 이름이면 충분합니다.<br>
 조금 서툴러도 좋습니다.
 </p>
+<input id="nickname" placeholder="이름" />
   <textarea id="content" placeholder="마음을 적어주세요"></textarea><br/>
   <button onclick="submitPost()">편지 보내기</button>
 
