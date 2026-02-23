@@ -4,172 +4,165 @@
   <meta charset="UTF-8" />
   <title>답장을 기다리는 편지</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+
+  <!-- 감성 폰트 -->
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-  margin: 0;
-  font-family: 'Noto Sans KR', sans-serif;
-  background: radial-gradient(circle at 20% 30%, #1b2445 0%, transparent 40%),
-              radial-gradient(circle at 80% 70%, #1a1f3a 0%, transparent 40%),
-              linear-gradient(to bottom, #0b1120, #0f172a);
-  color: #f5f5f5;
-}
+      margin: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: linear-gradient(to bottom, #0b1120, #151a33);
+      color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
     .subtitle {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 30px;
-}
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
 
-.hint {
-  font-size: 13px;
-  opacity: 0.7;
-  margin-bottom: 10px;
-  line-height: 1.6;
-}
+    h3 {
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .hint {
+      font-size: 13px;
+      opacity: 0.7;
+      margin-bottom: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      border: none;
+      outline: none;
+    }
+
+    input {
+      padding: 16px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      background: #f5f1e6;
+      color: #333;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-weight: 400;
+    }
+
+    textarea {
+      padding: 35px 25px;
+      border-radius: 20px;
+      min-height: 280px;
+      resize: none;
+
+      background: repeating-linear-gradient(
+        to bottom,
+        #fdf6e3,
+        #fdf6e3 32px,
+        #e6dcc8 33px
+      );
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.15),
+        inset 0 0 30px rgba(0,0,0,0.03);
+
+      color: #2d2d2d;
+      font-size: 16px;
+      line-height: 32px;
+
+      text-align: center;
+    }
+
+    textarea:focus {
+      text-align: left;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      border-radius: 12px;
+      border: none;
+      background: #e6dcc8;
+      color: #333;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #d8cbb2;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
   </style>
- <style>
-  body {
-  margin: 0;
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  background: radial-gradient(circle at 20% 30%, #1b2445 0%, transparent 40%),
-              radial-gradient(circle at 80% 70%, #1a1f3a 0%, transparent 40%),
-              linear-gradient(to bottom, #0b1120, #0f172a);
-  color: #f5f5f5;
-}
-
-  .container {
-    max-width: 500px;
-    margin: 80px auto;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-  }
-
-  h1 {
-    font-size: 28px;
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
-
-  .subtitle {
-    font-size: 14px;
-    opacity: 0.8;
-    margin-bottom: 30px;
-  }
-
-  .hint {
-  font-size: 13px;
-  opacity: 0.7;
-  margin-bottom: 8px;
-  line-height: 1.6;
-}
-  
-
-input {
-  width: 100%;
-  padding: 16px;
-  margin-bottom: 20px; /* 편지지와 간격 */
-  border-radius: 12px;
-  border: none;
-  outline: none;
-  background: #f5f1e6;
-  color: #333;
-  font-size: 15px;
-  text-align: center; /* 이름은 가운데 */
-}
-textarea {
-  width: 100%;
-  padding: 40px 30px;
-  border-radius: 20px;
-  border: none;
-  outline: none;
-  min-height: 280px; /* 더 길게 */
-  resize: none;
-
-  background: repeating-linear-gradient(
-    to bottom,
-    #fdf6e3,
-    #fdf6e3 32px,
-    #e6dcc8 33px
-  );
-textarea::placeholder {
-  color: #9c8f7a;
-  box-shadow: 
-    0 10px 25px rgba(0,0,0,0.15),
-    inset 0 0 30px rgba(0,0,0,0.03);
-
-  color: #2d2d2d;
-  font-size: 16px;
-  line-height: 32px;
-
-  text-align: center; /* 기본 가운데 */
-}
-
-  textarea  {
-  width: 100%;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-radius: 15px;
-  border: none;
-  outline: none;
-  min-height: 150px;
-  resize: none;
-
-  background: repeating-linear-gradient(
-    to bottom,
-    #fdf6e3,
-    #fdf6e3 28px,
-    #e8dcc5 29px
-  );
-
-  color: #333;
-  font-family: 'Noto Serif KR', serif;
-  font-size: 15px;
-  line-height: 29px;
-}
-
-  button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #2c355b;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #3a4575;
-  }
-
-  .card {
-    background: rgba(255,255,255,0.05);
-    padding: 15px;
-    border-radius: 15px;
-    margin-top: 15px;
-  }
-</style>
 </head>
+
 <body>
   <div class="container">
 
-  <h1>답장을 기다리는 편지</h1>
-<p class="subtitle">
-어디에도 꺼내지 못한 이야기를, 이곳에 남겨주세요.
-</p>
+    <h1>답장을 기다리는 편지</h1>
+    <p class="subtitle">
+      어디에도 꺼내지 못한 이야기를, 이곳에 남겨주세요.
+    </p>
 
-  <h3>오늘의 이야기를 적어주세요.</h3>
-<p class="hint">
-당신을 나타낼 이름이면 충분합니다.<br>
-조금 서툴러도 좋습니다.
-</p>
-<input id="nickname" placeholder="이름" />
-  <textarea id="content" placeholder="마음을 적어주세요"></textarea><br/>
-  <button onclick="submitPost()">편지 보내기</button>
+    <h3>편지 쓰기</h3>
 
-  <h3>도착한 편지</h3>
-  <div id="posts"></div>
+    <input 
+      id="nickname" 
+      placeholder="당신을 나타낼 이름이면 충분합니다." 
+    />
+
+    <p class="hint">
+      조금 서툴러도 괜찮아요.
+    </p>
+
+    <textarea 
+      id="content" 
+      placeholder="오늘의 이야기를 적어주세요"
+    ></textarea>
+
+    <button onclick="submitPost()">보내기</button>
+
+    <h3 style="margin-top:50px;">도착한 편지</h3>
+    <div id="posts"></div>
+
+  </div>
 
 <script>
   const supabase = window.supabase.createClient(
@@ -181,11 +174,20 @@ textarea::placeholder {
     const nickname = document.getElementById("nickname").value;
     const content = document.getElementById("content").value;
 
+    if (!nickname || !content) {
+      alert("이름과 이야기를 적어주세요 🌙");
+      return;
+    }
+
     await supabase.from("posts").insert([
       { nickname, content }
     ]);
 
-    alert("편지가 전송되었어요 🌙");
+    alert("편지가 전해졌어요 🌙");
+
+    document.getElementById("nickname").value = "";
+    document.getElementById("content").value = "";
+
     loadPosts();
   }
 
@@ -209,19 +211,7 @@ textarea::placeholder {
   }
 
   loadPosts();
-
-  const textarea = document.getElementById("content");
-
-textarea.addEventListener("focus", () => {
-  textarea.style.textAlign = "left";
-});
-
-textarea.addEventListener("blur", () => {
-  if (textarea.value === "") {
-    textarea.style.textAlign = "center";
-  }
-});
 </script>
-</div>
+
 </body>
 </html>
